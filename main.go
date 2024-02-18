@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 )
@@ -63,5 +64,5 @@ func main() {
 	})
 
 	fmt.Printf("Server is running at %s\n", port)
-	http.ListenAndServe(port, server)
+	log.Fatal(http.ListenAndServe(port, server))
 }
