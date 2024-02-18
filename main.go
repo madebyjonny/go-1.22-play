@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 )
 
 
@@ -13,8 +14,16 @@ type Task struct {
 
 var tasks []Task = []Task{}
 
+func getenv(key, fallback string) string {
+    value := os.Getenv(key)
+    if len(value) == 0 {
+        return fallback
+    }
+    return value
+}
+
 func main() {
-	const port = ":3000"
+	var port = getenv("PORT", ":3000") 
 	server := http.NewServeMux()
 
 	server.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +38,7 @@ func main() {
 		w.Write(jsonResponse)
 	})
 
-	server.HandleFunc("POST /add", func(w http.ResponseWriter, r *http.Request) {
+	server.HandleFunc("POST /add/", func(w http.ResponseWriter, r *http.Request) {
 		var requestBody Task
 		decoder := json.NewDecoder(r.Body)
 		if err := decoder.Decode(&requestBody); err != nil {
