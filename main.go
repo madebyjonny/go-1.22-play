@@ -24,7 +24,7 @@ func getenv(key, fallback string) string {
 }
 
 func main() {
-	var port = getenv("PORT", ":3000") 
+	var port = "0.0.0.0" + getenv("PORT", ":3000") 
 	server := http.NewServeMux()
 
 	server.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
